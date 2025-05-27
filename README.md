@@ -1,99 +1,12 @@
-# Carbone
+# React + Vite
 
-**Carbone** est une plateforme événementielle conçue pour favoriser les connexions entre participant·es, en s’inspirant du carbone, l’élément chimique capable de former le plus de liaisons.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## 🌐 Architecture
+Currently, two official plugins are available:
 
-Le système repose sur deux interfaces distinctes :
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-- [`admin.carbonedev.com`](http://admin.carbonedev.com) – Interface d’administration
-- [`bond.carbonedev.com`](http://bond.carbonedev.com) – Interface utilisateur
+## Expanding the ESLint configuration
 
-## 🔗 Fonctionnement général
-
-### Génération d'identifiants
-
-À l’entrée de l’événement, chaque participant·e reçoit un badge avec un QR code menant à une URL unique :
-
-`https://carbonedev.com/{generatedID}`
-
-
-Exemple : `https://carbonedev.com/QcfDr4Dp32`
-
----
-
-## 🧠 Backend & Base de données
-
-- **Supabase** stocke les identifiants et les informations utilisateurs : nom, prénom, email/téléphone, entreprise, etc.
-- Lors du scan d’un QR code :
-  - Si aucune donnée n’est associée à l’ID (ex. `nom = ""`), l’utilisateur est redirigé vers une **page d’inscription**.
-  - L’ID est sauvegardé dans le `localStorage`.
-  - Une fois le formulaire rempli, les données sont **envoyées à Supabase via une requête POST**.
-
----
-
-## 📝 Formulaire d'inscription
-
-- Nom et prénom
-- Email ou numéro de contact
-- Entreprise (champ optionnel avec case **"Je n’ai pas d’entreprise"**)
-
-### (Optionnel)
-Si le temps le permet :
-- Choix de **trois centres d’intérêt**
-- Génération d’un **dégradé hexadécimal personnalisé** via l’API OpenAI
-
----
-
-## 👥 Interface utilisateur
-
-- Scan du QR code d’un tiers : accès à son profil (infos publiques), uniquement si l’utilisateur est **connecté (via `localStorage`)**
-- Scan de son propre QR code : accès à `[bond.carbonedev.com/profile](http://bond.carbone.com/profile)`
-- Depuis cette page :
-  - Consultation de son profil
-  - Accès aux contacts enregistrés
-  - Possibilité d’**envoyer une seule fois par email** la liste de ses contacts (avec pop-up d’avertissement)
-
----
-
-## 🧭 Navigation
-
-L’interface comporte :
-
-- Un **header** avec logo centré
-- Un **menu hamburger** à droite avec superposition
-  - Profil
-  - Enregistrements
-  - Termes et conditions
-
-⚠️ **L’acceptation des termes et conditions est obligatoire** pour utiliser Carbone.
-
----
-
-## 🛠️ Technologies
-
-- **Frontend** :
-  - [React Bits](https://www.reactbits.dev/) (prioritaire)
-  - [GSAP](https://greensock.com/gsap/) pour les animations
-- **Backend** :
-  - Supabase
-  - API OpenAI (optionnelle – génération de dégradé)
-
-🎨 **Palette de couleurs** : moderne et épurée
-
----
-
-## 🔐 Administration
-
-Depuis [`admin.carbonedev.com`](http://admin.carbonedev.com) :
-
-- Génération d’IDs utilisateur
-- Suppression d’IDs en masse (par ex. à la fin d’un événement)
-
----
-
-## 📦 À venir
-
-- Intégration des centres d’intérêt et de la carte personnalisée
-- Dashboard statistique pour l’admin (scans, connexions, taux de complétion)
-- Mode offline pour le scan et l’enregistrement temporaire des profils
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
