@@ -6,8 +6,8 @@
 
 Le système repose sur deux interfaces distinctes :
 
-- [`admin.carbone.com`](http://admin.carbonedev.com) – Interface d’administration
-- [`bond.carbone.com`](http://bond.carbonedev.com) – Interface utilisateur
+- [`admin.carbonedev.com`](http://admin.carbonedev.com) – Interface d’administration
+- [`bond.carbonedev.com`](http://bond.carbonedev.com) – Interface utilisateur
 
 ## 🔗 Fonctionnement général
 
