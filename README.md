@@ -6,8 +6,8 @@
 
 Le système repose sur deux interfaces distinctes :
 
-- [`admin.carbone.com`](http://admin.carbone.com) – Interface d’administration
-- [`bond.carbone.com`](http://bond.carbone.com) – Interface utilisateur
+- [`admin.carbone.com`](http://admin.carbonedev.com) – Interface d’administration
+- [`bond.carbone.com`](http://bond.carbonedev.com) – Interface utilisateur
 
 ## 🔗 Fonctionnement général
 
@@ -15,10 +15,10 @@ Le système repose sur deux interfaces distinctes :
 
 À l’entrée de l’événement, chaque participant·e reçoit un badge avec un QR code menant à une URL unique :
 
-`https://carbone.com/{generatedID}`
+`https://carbonedev.com/{generatedID}`
 
 
-Exemple : `https://carbone.com/QcfDr4Dp32`
+Exemple : `https://carbonedev.com/QcfDr4Dp32`
 
 ---
 
@@ -48,7 +48,7 @@ Si le temps le permet :
 ## 👥 Interface utilisateur
 
 - Scan du QR code d’un tiers : accès à son profil (infos publiques), uniquement si l’utilisateur est **connecté (via `localStorage`)**
-- Scan de son propre QR code : accès à `[bond.carbone.com/profile](http://bond.carbone.com/profile)`
+- Scan de son propre QR code : accès à `[bond.carbonedev.com/profile](http://bond.carbone.com/profile)`
 - Depuis cette page :
   - Consultation de son profil
   - Accès aux contacts enregistrés
@@ -85,7 +85,7 @@ L’interface comporte :
 
 ## 🔐 Administration
 
-Depuis [`admin.carbone.com`](http://admin.carbone.com) :
+Depuis [`admin.carbonedev.com`](http://admin.carbonedev.com) :
 
 - Génération d’IDs utilisateur
 - Suppression d’IDs en masse (par ex. à la fin d’un événement)
