@@ -1,14 +1,113 @@
 @import "tailwindcss";
 
+/* HKGroteskWide Font Family */
+@font-face {
+  font-family: 'HKGrotesk';
+  src: url('/fonts/HKGroteskWide-Black.eot');
+  src: url('/fonts/HKGroteskWide-Black.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/HKGroteskWide-Black.woff2') format('woff2'),
+       url('/fonts/HKGroteskWide-Black.woff') format('woff'),
+       url('/fonts/HKGroteskWide-Black.ttf') format('truetype'),
+       url('/fonts/HKGroteskWide-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Thunder Font Family */
+@font-face {
+  font-family: 'Thunder';
+  src: url('/fonts/Thunder-BoldLC.eot');
+  src: url('/fonts/Thunder-BoldLC.eot?#iefix') format('embedded-opentype'),
+       url('/fonts/Thunder-BoldLC.woff2') format('woff2'),
+       url('/fonts/Thunder-BoldLC.woff') format('woff'),
+       url('/fonts/Thunder-BoldLC.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Color Palette Variables */
+:root {
+  --primary-dark: #222831;     /* rgb(34, 40, 49) */
+  --secondary-dark: #393E46;   /* rgb(57, 62, 70) */
+  --accent-teal: #29A19C;      /* rgb(41, 161, 156) */
+  --accent-light: #A3F7BF;     /* rgb(163, 247, 191) */
+}
+
 .header {
   z-index: 100;
   position: relative;
 }
 
 body {
-  background-color: rgb(6, 6, 6);
+  background-color: var(--primary-dark);
   min-height: 100vh;
   width: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'HKGrotesk', sans-serif;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}
+
+/* Animations personnalisées */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Effets de glassmorphism */
+.glass {
+  background: rgba(163, 247, 191, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(163, 247, 191, 0.1);
+}
+
+/* Scrollbar personnalisée */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary-dark);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-teal);
+}
+
+/* Mobile-first responsive improvements */
+@media (max-width: 640px) {
+  .glass {
+    background: rgba(163, 247, 191, 0.08);
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  button:hover {
+    transform: none;
+  }
+  
+  button:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Mobile viewport fix */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
 }
