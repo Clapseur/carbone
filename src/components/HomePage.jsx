@@ -1,13 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import VideoText from './VideoText';
-import { createClient } from '@supabase/supabase-js';
-
-// Initialize Supabase client
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
 
 const HomePage = () => {
   const titleRef = useRef(null);
@@ -55,28 +48,27 @@ const HomePage = () => {
     setIsSubmitting(true);
     
     try {
-      // Submit to Supabase
-      const { data, error } = await supabase
-        .from('profiles')
-        .insert([
-          {
-            nom: formData.nom,
-            prenom: formData.prenom,
-            email: formData.email,
-            telephone: formData.telephone,
-            entreprise: formData.hasNoCompany ? null : formData.entreprise,
-            created_at: new Date().toISOString()
-          }
-        ])
-        .select();
-
-      if (error) throw error;
-
-      // Generate unique bond ID
-      const bondId = await generateBondId(data[0].id);
+      // Mock submission - replace with your API call later
+      console.log('Form data:', formData);
       
-      // Redirect to bond page
-      window.location.href = `https://bond.carbonedev.com/${bondId}`;
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Generate mock bond ID
+      const bondId = generateRandomId();
+      
+      // Show success message or redirect
+      alert(`Profil créé avec succès! ID: ${bondId}`);
+      
+      // Reset form
+      setFormData({
+        nom: '',
+        prenom: '',
+        email: '',
+        telephone: '',
+        entreprise: '',
+        hasNoCompany: false
+      });
       
     } catch (error) {
       console.error('Erreur lors de la soumission:', error);
@@ -84,23 +76,6 @@ const HomePage = () => {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const generateBondId = async (profileId) => {
-    const { data, error } = await supabase
-      .from('bond_ids')
-      .insert([
-        {
-          profile_id: profileId,
-          bond_id: generateRandomId(),
-          is_active: true,
-          created_at: new Date().toISOString()
-        }
-      ])
-      .select();
-
-    if (error) throw error;
-    return data[0].bond_id;
   };
 
   const generateRandomId = () => {
@@ -189,7 +164,7 @@ const HomePage = () => {
                   borderColor: 'rgba(41, 161, 156, 0.3)',
                   '--tw-ring-color': '#29A19C'
                 }}
-                placeholder="votre@email.com"
+                placeholder="votre.email@exemple.com"
                 required
               />
             </div>
@@ -208,11 +183,11 @@ const HomePage = () => {
                   borderColor: 'rgba(41, 161, 156, 0.3)',
                   '--tw-ring-color': '#29A19C'
                 }}
-                placeholder="+33 6 12 34 56 78"
+                placeholder="+33 1 23 45 67 89"
               />
             </div>
 
-            {/* Entreprise */}
+            {/* Entreprise avec checkbox */}
             <div>
               <label className="block text-sm font-medium mb-2">Entreprise</label>
               <input
@@ -221,7 +196,7 @@ const HomePage = () => {
                 value={formData.entreprise}
                 onChange={handleInputChange}
                 disabled={formData.hasNoCompany}
-                className="w-full px-3 sm:px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 text-white placeholder-gray-400 disabled:opacity-50 text-base"
+                className="w-full px-3 sm:px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 text-white placeholder-gray-400 text-base disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
                   backgroundColor: 'rgba(57, 62, 70, 0.3)',
                   borderColor: 'rgba(41, 161, 156, 0.3)',
@@ -229,31 +204,41 @@ const HomePage = () => {
                 }}
                 placeholder="Nom de votre entreprise"
               />
-              <label className="flex items-center mt-2 text-sm" style={{color: '#A3F7BF'}}>
-                <input
-                  type="checkbox"
-                  name="hasNoCompany"
-                  checked={formData.hasNoCompany}
-                  onChange={handleInputChange}
-                  className="mr-2 rounded"
-                  style={{accentColor: '#29A19C'}}
-                />
-                Je n'ai pas d'entreprise
-              </label>
+              <div className="mt-2">
+                <label className="flex items-center text-sm">
+                  <input
+                    type="checkbox"
+                    name="hasNoCompany"
+                    checked={formData.hasNoCompany}
+                    onChange={handleInputChange}
+                    className="mr-2 rounded"
+                    style={{
+                      accentColor: '#29A19C'
+                    }}
+                  />
+                  Je n'ai pas d'entreprise
+                </label>
+              </div>
             </div>
 
             {/* Bouton de soumission */}
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full font-bold py-3 sm:py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 text-base sm:text-lg"
+              className="w-full py-3 sm:py-4 px-6 rounded-lg font-semibold text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-lg"
               style={{
-                background: `linear-gradient(135deg, #29A19C 0%, #A3F7BF 100%)`,
-                color: '#222831',
-                '--tw-ring-color': '#29A19C'
+                background: isSubmitting ? 'rgba(41, 161, 156, 0.5)' : 'linear-gradient(135deg, #29A19C 0%, #A3F7BF 100%)',
+                boxShadow: isSubmitting ? 'none' : '0 4px 15px rgba(41, 161, 156, 0.3)'
               }}
             >
-              {isSubmitting ? 'Création en cours...' : 'Créer mon profil Carbone'}
+              {isSubmitting ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Création en cours...
+                </div>
+              ) : (
+                'Créer mon profil Carbone'
+              )}
             </button>
           </form>
         </div>

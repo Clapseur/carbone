@@ -58,7 +58,7 @@ const VideoText = ({ text, className = '', videoSrc }) => {
       
       {/* Fallback text with gradient */}
       <span 
-        className="relative z-10 text-5xl md:text-7xl font-black font-hk-grotesk"
+        className="relative z-10 text-4xl md:text-8xl font-black font-hk-grotesk"
         style={{
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent'

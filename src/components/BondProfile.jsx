@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-    import.meta.env.VITE_SUPABASE_URL,
-    import.meta.env.VITE_SUPABASE_ANON_KEY
-);
 
 const BondProfile = () => {
   const { bondId } = useParams();
@@ -16,7 +10,7 @@ const BondProfile = () => {
   useEffect(() => {
     fetchProfile();
   }, [bondId]);
-
+  
   const fetchProfile = async () => {
     try {
       const { data: bondData, error: bondError } = await supabase
