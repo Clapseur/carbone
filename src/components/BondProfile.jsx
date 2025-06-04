@@ -1,6 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
+// Mock data to replace Supabase functionality
+const mockProfiles = {
+  'sample-bond-1': {
+    prenom: 'John',
+    nom: 'Doe',
+    email: 'john.doe@example.com',
+    telephone: '+33 1 23 45 67 89',
+    entreprise: 'Tech Company',
+    created_at: '2024-01-15T10:30:00Z'
+  },
+  'sample-bond-2': {
+    prenom: 'Jane',
+    nom: 'Smith',
+    email: 'jane.smith@example.com',
+    telephone: '+33 1 98 76 54 32',
+    entreprise: 'Design Studio',
+    created_at: '2024-01-20T14:15:00Z'
+  }
+};
+
 const BondProfile = () => {
   const { bondId } = useParams();
   const [profile, setProfile] = useState(null);
@@ -13,24 +33,18 @@ const BondProfile = () => {
   
   const fetchProfile = async () => {
     try {
-      const { data: bondData, error: bondError } = await supabase
-        .from('bond_ids')
-        .select(`
-          *,
-          profiles (*)
-        `)
-        .eq('bond_id', bondId)
-        .eq('is_active', true)
-        .single();
-
-      if (bondError) throw bondError;
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      if (!bondData) {
+      // Check if profile exists in mock data
+      const profileData = mockProfiles[bondId];
+      
+      if (!profileData) {
         setError('Profil non trouvé');
         return;
       }
 
-      setProfile(bondData.profiles);
+      setProfile(profileData);
     } catch (err) {
       setError('Erreur lors du chargement du profil');
       console.error(err);

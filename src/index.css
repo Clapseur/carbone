@@ -2,37 +2,38 @@
 
 /* HKGroteskWide Font Family */
 @font-face {
-  font-family: 'HKGrotesk';
-  src: url('/fonts/HKGroteskWide-Black.eot');
-  src: url('/fonts/HKGroteskWide-Black.eot?#iefix') format('embedded-opentype'),
-       url('/fonts/HKGroteskWide-Black.woff2') format('woff2'),
-       url('/fonts/HKGroteskWide-Black.woff') format('woff'),
-       url('/fonts/HKGroteskWide-Black.ttf') format('truetype'),
-       url('/fonts/HKGroteskWide-Black.otf') format('opentype');
+  font-family: "HKGrotesk";
+  src: url("/fonts/HKGroteskWide-Black.eot");
+  src: url("/fonts/HKGroteskWide-Black.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/HKGroteskWide-Black.woff2") format("woff2"),
+    url("/fonts/HKGroteskWide-Black.woff") format("woff"),
+    url("/fonts/HKGroteskWide-Black.ttf") format("truetype"),
+    url("/fonts/HKGroteskWide-Black.otf") format("opentype");
   font-weight: 900;
   font-style: normal;
   font-display: swap;
+  /* Safari-specific font loading optimization */
+  unicode-range: U+0020-007F;
 }
 
 /* Thunder Font Family */
 @font-face {
-  font-family: 'Thunder';
-  src: url('/fonts/Thunder-BoldLC.eot');
-  src: url('/fonts/Thunder-BoldLC.eot?#iefix') format('embedded-opentype'),
-       url('/fonts/Thunder-BoldLC.woff2') format('woff2'),
-       url('/fonts/Thunder-BoldLC.woff') format('woff'),
-       url('/fonts/Thunder-BoldLC.ttf') format('truetype');
+  font-family: "Thunder";
+  src: url("/fonts/Thunder-BoldLC.eot");
+  src: url("/fonts/Thunder-BoldLC.eot?#iefix") format("embedded-opentype"),
+    url("/fonts/Thunder-BoldLC.woff2") format("woff2"),
+    url("/fonts/Thunder-BoldLC.woff") format("woff"),
+    url("/fonts/Thunder-BoldLC.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
 
-/* Color Palette Variables */
 :root {
-  --primary-dark: #222831;     /* rgb(34, 40, 49) */
-  --secondary-dark: #393E46;   /* rgb(57, 62, 70) */
-  --accent-teal: #29A19C;      /* rgb(41, 161, 156) */
-  --accent-light: #A3F7BF;     /* rgb(163, 247, 191) */
+  --primary-dark: #222831;
+  --secondary-dark: #393e46;
+  --accent-teal: #29a19c;
+  --accent-light: #a3f7bf;
 }
 
 .header {
@@ -46,15 +47,20 @@ body {
   width: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'HKGrotesk', sans-serif;
+  font-family: "HKGrotesk", sans-serif;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
 }
 
 /* Animations personnalisées */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .float-animation {
@@ -86,7 +92,6 @@ body {
   background: var(--accent-teal);
 }
 
-/* Mobile-first responsive improvements */
 @media (max-width: 640px) {
   .glass {
     background: rgba(163, 247, 191, 0.08);
@@ -94,12 +99,11 @@ body {
   }
 }
 
-/* Touch-friendly interactions */
 @media (hover: none) and (pointer: coarse) {
   button:hover {
     transform: none;
   }
-  
+
   button:active {
     transform: scale(0.98);
   }
@@ -109,5 +113,108 @@ body {
 @supports (-webkit-touch-callout: none) {
   .min-h-screen {
     min-height: -webkit-fill-available;
+  }
+}
+
+/* Animations et micro-interactions */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(41, 161, 156, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(41, 161, 156, 0.8);
+  }
+}
+
+.form-input:focus {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Amélioration du loading */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@media (max-width: 640px) {
+  .form-input {
+    font-size: 16px;
+    padding: 14px 16px;
+  }
+}
+
+.form-input {
+  background-color: rgba(57, 62, 70, 0.8) !important;
+  border: 2px solid rgba(41, 161, 156, 0.5);
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.form-input:focus {
+  border-color: #29a19c;
+  box-shadow: 0 0 0 3px rgba(41, 161, 156, 0.2);
+  background-color: rgba(57, 62, 70, 0.9);
+}
+
+.form-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.form-label {
+  color: #a3f7bf;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.success-message {
+  background: linear-gradient(
+    135deg,
+    rgba(41, 161, 156, 0.1),
+    rgba(163, 247, 191, 0.1)
+  );
+  border: 1px solid #29a19c;
+  color: #a3f7bf;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+/* Safari-specific mask support */
+@supports (-webkit-mask: url()) {
+  .video-text-mask {
+    -webkit-mask-composite: source-in;
+  }
+}
+
+/* Fallback for older Safari versions */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .font-hk-grotesk {
+    font-family: "HKGrotesk", "Helvetica Neue", Arial, sans-serif;
   }
 }

@@ -1,248 +1,595 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
-import VideoText from './VideoText';
+import React, { useRef, useEffect, useState } from "react";
+import { gsap } from "gsap";
+import VideoText from "./VideoText";
 
-const HomePage = () => {
-  const titleRef = useRef(null);
-  const subtitleRef = useRef(null);
-  const formRef = useRef(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    nom: '',
-    prenom: '',
-    email: '',
-    telephone: '',
-    entreprise: '',
-    hasNoCompany: false
-  });
+// Black Hole Background Component
+const BlackHoleBackground = () => {
+  const canvasRef = useRef(null);
 
   useEffect(() => {
-    const tl = gsap.timeline();
-    
-    tl.fromTo(titleRef.current,
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
-    )
-    .fromTo(subtitleRef.current,
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
-      "-=0.5"
-    )
-    .fromTo(formRef.current,
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
-      "-=0.3"
-    );
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    let animationId;
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Black hole animation
+    const particles = [];
+    const numParticles = 50;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    // Initialize particles
+    for (let i = 0; i < numParticles; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 2,
+        vy: (Math.random() - 0.5) * 2,
+        size: Math.random() * 2 + 1,
+        opacity: Math.random() * 0.8 + 0.2,
+      });
+    }
+
+    const animate = () => {
+      ctx.fillStyle = "rgba(9, 9, 11, 0.1)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw black hole center
+      const gradient = ctx.createRadialGradient(
+        centerX,
+        centerY,
+        0,
+        centerX,
+        centerY,
+        200
+      );
+      gradient.addColorStop(0, "rgba(0, 0, 0, 1)");
+      gradient.addColorStop(0.3, "rgba(9, 9, 11, 0.8)");
+      gradient.addColorStop(1, "rgba(9, 9, 11, 0)");
+
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, 200, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Update and draw particles
+      particles.forEach((particle) => {
+        // Gravitational pull towards center
+        const dx = centerX - particle.x;
+        const dy = centerY - particle.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance > 50) {
+          const force = 0.5 / distance;
+          particle.vx += dx * force;
+          particle.vy += dy * force;
+        }
+
+        // Apply velocity
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+
+        // Reset if too close to center or out of bounds
+        if (
+          distance < 30 ||
+          particle.x < 0 ||
+          particle.x > canvas.width ||
+          particle.y < 0 ||
+          particle.y > canvas.height
+        ) {
+          particle.x = Math.random() * canvas.width;
+          particle.y = Math.random() * canvas.height;
+          particle.vx = (Math.random() - 0.5) * 2;
+          particle.vy = (Math.random() - 0.5) * 2;
+        }
+
+        // Draw particle
+        ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", resizeCanvas);
+      cancelAnimationFrame(animationId);
+    };
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
-  };
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 w-full h-full pointer-events-none z-0"
+      style={{ background: "#09090B" }}
+    />
+  );
+};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      // Mock submission - replace with your API call later
-      console.log('Form data:', formData);
-      
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Generate mock bond ID
-      const bondId = generateRandomId();
-      
-      // Show success message or redirect
-      alert(`Profil créé avec succès! ID: ${bondId}`);
-      
-      // Reset form
-      setFormData({
-        nom: '',
-        prenom: '',
-        email: '',
-        telephone: '',
-        entreprise: '',
-        hasNoCompany: false
-      });
-      
-    } catch (error) {
-      console.error('Erreur lors de la soumission:', error);
-      alert('Une erreur est survenue. Veuillez réessayer.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+const HomePage = () => {
+  const heroRef = useRef(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  const generateRandomId = () => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < 10; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return result;
-  };
+  useEffect(() => {
+    // Hero animation
+    const tl = gsap.timeline();
+    tl.fromTo(
+      ".hero-title",
+      { y: 100, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.2, ease: "power3.out" }
+    )
+      .fromTo(
+        ".hero-subtitle",
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+        "-=0.6"
+      )
+      .fromTo(
+        ".hero-description",
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+        "-=0.4"
+      );
+
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const className = entry.target.className
+              .split(" ")
+              .find((cls) => cls.includes("-section"));
+            if (className) {
+              gsap.fromTo(
+                entry.target,
+                { y: 100, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
+              );
+            }
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe sections
+    const sections = document.querySelectorAll(
+      ".story-section, .bonds-section, .network-section"
+    );
+    sections.forEach((section) => observer.observe(section));
+
+    // Mouse movement effect
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      observer.disconnect();
+    };
+  }, []);
 
   return (
-    <div className="min-h-screen text-white pt-16 px-4 sm:px-6 lg:px-8" style={{background: `linear-gradient(135deg, #222831 0%, #393E46 50%, #29A19C 100%)`}}>
-      <div className="max-w-md mx-auto sm:max-w-lg lg:max-w-2xl">
-        {/* Titre principal - Mobile First */}
-        <div className="text-center mb-8 sm:mb-12">
-          <h1 ref={titleRef} className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black font-hk-grotesk mb-4 sm:mb-6">
-            <span className="block sm:inline bg-gradient-to-r from-white via-green-200 to-green-100 bg-clip-text text-transparent" style={{backgroundImage: `linear-gradient(to right, #ffffff, #A3F7BF, #29A19C)`}}>
-              Bienvenue sur{' '}
-            </span>
-            <VideoText 
-              text="Carbone" 
-              videoSrc="/carboneTexte.mp4"
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black font-hk-grotesk"
-            />
-          </h1>
-          <p ref={subtitleRef} className="text-base sm:text-lg lg:text-xl font-light leading-relaxed px-2" style={{color: '#A3F7BF'}}>
-            Créez des liaisons professionnelles comme l'élément chimique qui unit tout.
-          </p>
-        </div>
+    <div
+      className="min-h-screen text-white overflow-hidden relative"
+      style={{ backgroundColor: "#09090B" }}
+    >
+      {/* Black Hole Background */}
+      <BlackHoleBackground />
 
-        {/* Formulaire d'inscription - Mobile Optimized */}
-        <div ref={formRef} className="backdrop-blur-lg rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border" style={{background: 'rgba(163, 247, 191, 0.05)', borderColor: 'rgba(163, 247, 191, 0.2)'}}>
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">Créer votre profil</h2>
-          
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-            {/* Nom et Prénom - Stack on mobile */}
-            <div className="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
-              <div>
-                <label className="block text-sm font-medium mb-2">Nom</label>
-                <input
-                  type="text"
-                  name="nom"
-                  value={formData.nom}
-                  onChange={handleInputChange}
-                  className="w-full px-3 sm:px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 text-white placeholder-gray-400 text-base"
-                  style={{
-                    backgroundColor: 'rgba(57, 62, 70, 0.3)',
-                    borderColor: 'rgba(41, 161, 156, 0.3)',
-                    '--tw-ring-color': '#29A19C'
-                  }}
-                  placeholder="Votre nom"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Prénom</label>
-                <input
-                  type="text"
-                  name="prenom"
-                  value={formData.prenom}
-                  onChange={handleInputChange}
-                  className="w-full px-3 sm:px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 text-white placeholder-gray-400 text-base"
-                  style={{
-                    backgroundColor: 'rgba(57, 62, 70, 0.3)',
-                    borderColor: 'rgba(41, 161, 156, 0.3)',
-                    '--tw-ring-color': '#29A19C'
-                  }}
-                  placeholder="Votre prénom"
-                  required
-                />
-              </div>
-            </div>
+      {/* Cursor follower with specified classes */}
+      <div
+        className="fixed w-6 h-6 rounded-full pointer-events-none z-50 mix-blend-difference"
+        style={{
+          left: mousePosition.x - 12,
+          top: mousePosition.y - 12,
+          background: "#FFFFFF",
+          transition: "all 0.1s ease-out",
+        }}
+      />
 
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium mb-2">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-full px-3 sm:px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 text-white placeholder-gray-400 text-base"
-                style={{
-                  backgroundColor: 'rgba(57, 62, 70, 0.3)',
-                  borderColor: 'rgba(41, 161, 156, 0.3)',
-                  '--tw-ring-color': '#29A19C'
-                }}
-                placeholder="votre.email@exemple.com"
-                required
+      {/* Hero Section - Mobile First */}
+      <section
+        ref={heroRef}
+        className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden z-10"
+      >
+        <div className="relative z-10 text-center max-w-6xl mx-auto">
+          <div className="hero-title mb-6 sm:mb-8">
+            <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black font-hk-grotesk mb-4">
+              <VideoText
+                text="CARBONE"
+                videoSrc="/carboneTexte.mp4"
+                className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black font-hk-grotesk"
               />
-            </div>
+            </h1>
+          </div>
 
-            {/* Téléphone */}
-            <div>
-              <label className="block text-sm font-medium mb-2">Téléphone</label>
-              <input
-                type="tel"
-                name="telephone"
-                value={formData.telephone}
-                onChange={handleInputChange}
-                className="w-full px-3 sm:px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 text-white placeholder-gray-400 text-base"
-                style={{
-                  backgroundColor: 'rgba(57, 62, 70, 0.3)',
-                  borderColor: 'rgba(41, 161, 156, 0.3)',
-                  '--tw-ring-color': '#29A19C'
-                }}
-                placeholder="+33 1 23 45 67 89"
-              />
-            </div>
-
-            {/* Entreprise avec checkbox */}
-            <div>
-              <label className="block text-sm font-medium mb-2">Entreprise</label>
-              <input
-                type="text"
-                name="entreprise"
-                value={formData.entreprise}
-                onChange={handleInputChange}
-                disabled={formData.hasNoCompany}
-                className="w-full px-3 sm:px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 text-white placeholder-gray-400 text-base disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{
-                  backgroundColor: 'rgba(57, 62, 70, 0.3)',
-                  borderColor: 'rgba(41, 161, 156, 0.3)',
-                  '--tw-ring-color': '#29A19C'
-                }}
-                placeholder="Nom de votre entreprise"
-              />
-              <div className="mt-2">
-                <label className="flex items-center text-sm">
-                  <input
-                    type="checkbox"
-                    name="hasNoCompany"
-                    checked={formData.hasNoCompany}
-                    onChange={handleInputChange}
-                    className="mr-2 rounded"
-                    style={{
-                      accentColor: '#29A19C'
-                    }}
-                  />
-                  Je n'ai pas d'entreprise
-                </label>
-              </div>
-            </div>
-
-            {/* Bouton de soumission */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full py-3 sm:py-4 px-6 rounded-lg font-semibold text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-lg"
-              style={{
-                background: isSubmitting ? 'rgba(41, 161, 156, 0.5)' : 'linear-gradient(135deg, #29A19C 0%, #A3F7BF 100%)',
-                boxShadow: isSubmitting ? 'none' : '0 4px 15px rgba(41, 161, 156, 0.3)'
-              }}
+          <div className="hero-subtitle mb-4 sm:mb-6">
+            <h2
+              className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold"
+              style={{ color: "#FFFFFF" }}
             >
-              {isSubmitting ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                  Création en cours...
-                </div>
-              ) : (
-                'Créer mon profil Carbone'
-              )}
-            </button>
-          </form>
+              L'Élément qui Unit Tout
+            </h2>
+          </div>
+
+          <div className="hero-description">
+            <p
+              className="text-sm sm:text-lg md:text-xl lg:text-2xl font-light max-w-4xl mx-auto leading-relaxed"
+              style={{ color: "#FFFFFF", opacity: 0.8 }}
+            >
+              Comme l'atome de carbone forme des liaisons essentielles à la vie,
+              Carbone connecte les alumni et crée des réseaux professionnels
+              durables.
+            </p>
+          </div>
+
+          {/* Scroll indicator */}
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div
+              className="w-6 h-10 border-2 rounded-full flex justify-center"
+              style={{ borderColor: "#FFFFFF" }}
+            >
+              <div
+                className="w-1 h-3 rounded-full mt-2 animate-pulse"
+                style={{ backgroundColor: "#FFFFFF" }}
+              ></div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Story Section - Mobile First */}
+      <section className="story-section relative py-16 sm:py-24 md:py-32 px-4 z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
+            <div>
+              <h2
+                className="text-2xl sm:text-4xl md:text-6xl font-black font-hk-grotesk mb-6 sm:mb-8"
+                style={{ color: "#FFFFFF" }}
+              >
+                L'Histoire de Carbone
+              </h2>
+              <div
+                className="space-y-4 sm:space-y-6 text-sm sm:text-lg leading-relaxed"
+                style={{ color: "#FFFFFF", opacity: 0.8 }}
+              >
+                <p>
+                  Le{" "}
+                  <span style={{ color: "#FFFFFF", fontWeight: "600" }}>
+                    carbone
+                  </span>{" "}
+                  est l'élément fondamental de la vie. Avec ses quatre électrons
+                  de valence, il peut former jusqu'à quatre liaisons covalentes,
+                  créant des structures complexes et durables.
+                </p>
+                <p>
+                  De la même manière, notre plateforme{" "}
+                  <span style={{ color: "#FFFFFF", fontWeight: "600" }}>
+                    Carbone
+                  </span>
+                  permet aux alumni de créer des connexions multiples et
+                  significatives, formant un réseau professionnel solide et
+                  évolutif.
+                </p>
+                <p>
+                  Chaque interaction, chaque rencontre lors d'événements alumni,
+                  devient une{" "}
+                  <span style={{ color: "#FFFFFF", fontWeight: "600" }}>
+                    liaison
+                  </span>{" "}
+                  qui enrichit votre réseau et ouvre de nouvelles opportunités.
+                </p>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div
+                className="w-full h-64 sm:h-80 md:h-96 rounded-3xl backdrop-blur-sm border flex items-center justify-center"
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  borderColor: "rgba(255, 255, 255, 0.1)",
+                }}
+              >
+                <div className="text-center">
+                  <div className="text-6xl sm:text-8xl mb-4">⚛️</div>
+                  <p
+                    className="font-semibold text-lg sm:text-xl"
+                    style={{ color: "#FFFFFF" }}
+                  >
+                    Structure Moléculaire
+                  </p>
+                  <p style={{ color: "#FFFFFF", opacity: 0.6 }}>
+                    4 liaisons • Infinie possibilités
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Bonds Visualization Section - Mobile First */}
+      <section className="bonds-section relative py-16 sm:py-24 md:py-32 px-4 overflow-hidden z-10">
+        <div className="relative z-10 max-w-6xl mx-auto text-center">
+          <h2
+            className="text-2xl sm:text-4xl md:text-6xl font-black font-hk-grotesk mb-8 sm:mb-12 md:mb-16"
+            style={{ color: "#FFFFFF" }}
+          >
+            Les Liaisons Carbone
+          </h2>
+
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12 md:mb-16">
+            <div className="group">
+              <div
+                className="p-6 sm:p-8 rounded-2xl border backdrop-blur-sm hover:scale-105 transition-all duration-300"
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  borderColor: "rgba(255, 255, 255, 0.1)",
+                }}
+              >
+                <div className="text-4xl sm:text-5xl mb-4">🤝</div>
+                <h3
+                  className="text-lg sm:text-xl font-bold mb-3"
+                  style={{ color: "#FFFFFF" }}
+                >
+                  Liaison Simple
+                </h3>
+                <p
+                  className="text-sm sm:text-base"
+                  style={{ color: "#FFFFFF", opacity: 0.8 }}
+                >
+                  Connexions directes entre alumni lors d'événements networking
+                </p>
+              </div>
+            </div>
+
+            <div className="group">
+              <div
+                className="p-6 sm:p-8 rounded-2xl border backdrop-blur-sm hover:scale-105 transition-all duration-300"
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  borderColor: "rgba(255, 255, 255, 0.1)",
+                }}
+              >
+                <div className="text-4xl sm:text-5xl mb-4">🔗</div>
+                <h3
+                  className="text-lg sm:text-xl font-bold mb-3"
+                  style={{ color: "#FFFFFF" }}
+                >
+                  Liaison Double
+                </h3>
+                <p
+                  className="text-sm sm:text-base"
+                  style={{ color: "#FFFFFF", opacity: 0.8 }}
+                >
+                  Partenariats professionnels et collaborations durables
+                </p>
+              </div>
+            </div>
+
+            <div className="group sm:col-span-2 md:col-span-1">
+              <div
+                className="p-6 sm:p-8 rounded-2xl border backdrop-blur-sm hover:scale-105 transition-all duration-300"
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  borderColor: "rgba(255, 255, 255, 0.1)",
+                }}
+              >
+                <div className="text-4xl sm:text-5xl mb-4">🌐</div>
+                <h3
+                  className="text-lg sm:text-xl font-bold mb-3"
+                  style={{ color: "#FFFFFF" }}
+                >
+                  Réseau Complexe
+                </h3>
+                <p
+                  className="text-sm sm:text-base"
+                  style={{ color: "#FFFFFF", opacity: 0.8 }}
+                >
+                  Écosystème interconnecté d'opportunités et d'innovations
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Network Effect Section - Mobile First */}
+      <section className="network-section relative py-16 sm:py-24 md:py-32 px-4 z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8 sm:mb-12 md:mb-16">
+            <h2
+              className="text-2xl sm:text-4xl md:text-6xl font-black font-hk-grotesk mb-6 sm:mb-8"
+              style={{ color: "#FFFFFF" }}
+            >
+              L'Effet Réseau
+            </h2>
+            <p
+              className="text-sm sm:text-xl max-w-3xl mx-auto"
+              style={{ color: "#FFFFFF", opacity: 0.8 }}
+            >
+              Comme les molécules organiques complexes, votre réseau
+              professionnel se renforce à chaque nouvelle connexion.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
+            <div className="space-y-6 sm:space-y-8">
+              <div className="flex items-start space-x-4">
+                <div
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold"
+                  style={{ backgroundColor: "#FFFFFF", color: "#09090B" }}
+                >
+                  1
+                </div>
+                <div>
+                  <h3
+                    className="text-lg sm:text-xl font-bold mb-2"
+                    style={{ color: "#FFFFFF" }}
+                  >
+                    Événements Alumni
+                  </h3>
+                  <p
+                    className="text-sm sm:text-base"
+                    style={{ color: "#FFFFFF", opacity: 0.8 }}
+                  >
+                    Participez à des soirées networking exclusives et créez vos
+                    premières liaisons.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4">
+                <div
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold"
+                  style={{ backgroundColor: "#FFFFFF", color: "#09090B" }}
+                >
+                  2
+                </div>
+                <div>
+                  <h3
+                    className="text-lg sm:text-xl font-bold mb-2"
+                    style={{ color: "#FFFFFF" }}
+                  >
+                    Connexions Multiples
+                  </h3>
+                  <p
+                    className="text-sm sm:text-base"
+                    style={{ color: "#FFFFFF", opacity: 0.8 }}
+                  >
+                    Développez des relations avec des professionnels de
+                    différents secteurs.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-4">
+                <div
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold"
+                  style={{ backgroundColor: "#FFFFFF", color: "#09090B" }}
+                >
+                  3
+                </div>
+                <div>
+                  <h3
+                    className="text-lg sm:text-xl font-bold mb-2"
+                    style={{ color: "#FFFFFF" }}
+                  >
+                    Écosystème Durable
+                  </h3>
+                  <p
+                    className="text-sm sm:text-base"
+                    style={{ color: "#FFFFFF", opacity: 0.8 }}
+                  >
+                    Votre réseau devient une structure solide d'opportunités
+                    mutuelles.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div
+                className="w-full h-64 sm:h-80 md:h-96 rounded-3xl backdrop-blur-sm border flex items-center justify-center"
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.05)",
+                  borderColor: "rgba(255, 255, 255, 0.1)",
+                }}
+              >
+                <div className="text-center">
+                  <div className="text-6xl sm:text-8xl mb-4">🧬</div>
+                  <p
+                    className="font-semibold text-lg sm:text-xl"
+                    style={{ color: "#FFFFFF" }}
+                  >
+                    ADN Professionnel
+                  </p>
+                  <p style={{ color: "#FFFFFF", opacity: 0.6 }}>
+                    Votre réseau unique et évolutif
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section - Mobile First */}
+      <section className="relative py-16 sm:py-24 md:py-32 px-4 text-center z-10">
+        <div className="max-w-4xl mx-auto">
+          <h2
+            className="text-2xl sm:text-4xl md:text-6xl font-black font-hk-grotesk mb-6 sm:mb-8"
+            style={{ color: "#FFFFFF" }}
+          >
+            Rejoignez l'Écosystème Carbone
+          </h2>
+          <p
+            className="text-sm sm:text-xl mb-8 sm:mb-12 max-w-2xl mx-auto"
+            style={{ color: "#FFFFFF", opacity: 0.8 }}
+          >
+            Découvrez comment vos connexions professionnelles peuvent créer des
+            opportunités infinies, comme les liaisons du carbone dans la nature.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
+            <button
+              className="px-6 sm:px-8 py-3 sm:py-4 font-bold rounded-full hover:scale-105 transition-all duration-300 shadow-lg"
+              style={{ backgroundColor: "#FFFFFF", color: "#09090B" }}
+            >
+              Explorer le Réseau
+            </button>
+            <button
+              className="px-6 sm:px-8 py-3 sm:py-4 border-2 font-bold rounded-full hover:scale-105 transition-all duration-300"
+              style={{ borderColor: "#FFFFFF", color: "#FFFFFF" }}
+            >
+              En Savoir Plus
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer - Mobile First */}
+      <footer
+        className="relative py-12 sm:py-16 px-4 border-t z-10"
+        style={{ borderColor: "rgba(255, 255, 255, 0.1)" }}
+      >
+        <div className="max-w-6xl mx-auto text-center">
+          <VideoText
+            text="CARBONE"
+            videoSrc="/carboneTexte.mp4"
+            className="text-2xl sm:text-3xl font-black font-hk-grotesk mb-4"
+          />
+          <p
+            className="mb-6 sm:mb-8"
+            style={{ color: "#FFFFFF", opacity: 0.6 }}
+          >
+            L'élément qui unit tout • Créateur de liaisons durables
+          </p>
+          <div
+            className="flex flex-wrap justify-center gap-4 sm:gap-8 text-sm sm:text-base"
+            style={{ color: "#FFFFFF" }}
+          >
+            <span>🧪 Chimie</span>
+            <span>🤝 Réseau</span>
+            <span>🚀 Innovation</span>
+            <span>💎 Excellence</span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
