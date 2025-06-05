@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "tailwind/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 /* HKGroteskWide Font Family */
 @font-face {
@@ -12,7 +15,6 @@
   font-weight: 900;
   font-style: normal;
   font-display: swap;
-  /* Safari-specific font loading optimization */
   unicode-range: U+0020-007F;
 }
 
@@ -41,6 +43,22 @@
   position: relative;
 }
 
+/* Glassmorphic header */
+.glass-header {
+  background: rgba(34, 40, 49, 0.1);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(163, 247, 191, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Glassmorphic menu */
+.glass-menu {
+  background: rgba(34, 40, 49, 0.15);
+  backdrop-filter: blur(25px);
+  border-left: 1px solid rgba(163, 247, 191, 0.2);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.2);
+}
+
 body {
   background-color: var(--primary-dark);
   min-height: 100vh;
@@ -50,6 +68,16 @@ body {
   font-family: "HKGrotesk", sans-serif;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
+}
+
+/* Apply Thunder font to all p elements */
+p {
+  font-family: "Thunder", "HKGrotesk", sans-serif !important;
+}
+
+/* Thunder font utility class */
+.font-thunder {
+  font-family: "Thunder", "HKGrotesk", sans-serif;
 }
 
 /* Animations personnalisées */
@@ -96,6 +124,10 @@ body {
   .glass {
     background: rgba(163, 247, 191, 0.08);
     backdrop-filter: blur(8px);
+  }
+  
+  .glass-header {
+    backdrop-filter: blur(15px);
   }
 }
 

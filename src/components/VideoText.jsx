@@ -27,7 +27,7 @@ const VideoText = ({ text, className = '', videoSrc }) => {
   return (
     <div 
       ref={containerRef}
-      className={`relative inline-block ${className}`}
+      className={`relative inline-block overflow-hidden ${className}`}
       style={{
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
@@ -43,8 +43,8 @@ const VideoText = ({ text, className = '', videoSrc }) => {
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
         style={{
-          WebkitMask: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100"><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="HKGrotesk, sans-serif" font-weight="900" font-size="80" fill="white">${text}</text></svg>')`,
-          mask: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100"><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="HKGrotesk, sans-serif" font-weight="900" font-size="80" fill="white">${text}</text></svg>')`,
+          WebkitMask: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120"><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="HKGrotesk, sans-serif" font-weight="900" font-size="80" fill="white">${text}</text></svg>')`,
+          mask: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 120"><text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="HKGrotesk, sans-serif" font-weight="900" font-size="80" fill="white">${text}</text></svg>')`,
           WebkitMaskSize: 'contain',
           maskSize: 'contain',
           WebkitMaskRepeat: 'no-repeat',
@@ -58,7 +58,7 @@ const VideoText = ({ text, className = '', videoSrc }) => {
       
       {/* Fallback text with gradient */}
       <span 
-        className="relative z-10 text-4xl md:text-8xl font-black font-hk-grotesk"
+        className={`relative z-10 font-black font-hk-grotesk ${className.includes('text-') ? '' : 'text-3xl sm:text-5xl md:text-7xl lg:text-8xl'}`}
         style={{
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent'

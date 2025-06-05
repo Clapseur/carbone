@@ -220,7 +220,7 @@ const HomePage = () => {
               className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold"
               style={{ color: "#FFFFFF" }}
             >
-              L'Élément qui Unit Tout
+              L'Element qui <h2 style={{ color: "#FFFFFF" }}>Unit Tout</h2> 
             </h2>
           </div>
 
@@ -230,22 +230,9 @@ const HomePage = () => {
               style={{ color: "#FFFFFF", opacity: 0.8 }}
             >
               Comme l'atome de carbone forme des liaisons essentielles à la vie,
-              Carbone connecte les alumni et crée des réseaux professionnels
+              Carbone connecte les gens entre eux et crée des réseaux professionnels
               durables.
             </p>
-          </div>
-
-          {/* Scroll indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <div
-              className="w-6 h-10 border-2 rounded-full flex justify-center"
-              style={{ borderColor: "#FFFFFF" }}
-            >
-              <div
-                className="w-1 h-3 rounded-full mt-2 animate-pulse"
-                style={{ backgroundColor: "#FFFFFF" }}
-              ></div>
-            </div>
           </div>
         </div>
       </section>
@@ -266,10 +253,9 @@ const HomePage = () => {
                 style={{ color: "#FFFFFF", opacity: 0.8 }}
               >
                 <p>
-                  Le{" "}
-                  <span style={{ color: "#FFFFFF", fontWeight: "600" }}>
+                  Le
                     carbone
-                  </span>{" "}
+
                   est l'élément fondamental de la vie. Avec ses quatre électrons
                   de valence, il peut former jusqu'à quatre liaisons covalentes,
                   créant des structures complexes et durables.
@@ -350,7 +336,7 @@ const HomePage = () => {
                   className="text-sm sm:text-base"
                   style={{ color: "#FFFFFF", opacity: 0.8 }}
                 >
-                  Connexions directes entre alumni lors d'événements networking
+                  Connexions directes entre client/partenanire et recruteur/chasseur de tête lors de vos événements networking
                 </p>
               </div>
             </div>
@@ -392,13 +378,13 @@ const HomePage = () => {
                   className="text-lg sm:text-xl font-bold mb-3"
                   style={{ color: "#FFFFFF" }}
                 >
-                  Réseau Complexe
+                  Reseau Enrichis
                 </h3>
                 <p
                   className="text-sm sm:text-base"
                   style={{ color: "#FFFFFF", opacity: 0.8 }}
                 >
-                  Écosystème interconnecté d'opportunités et d'innovations
+                  Fructifier votre réseau et générez des opportunités inouis
                 </p>
               </div>
             </div>
