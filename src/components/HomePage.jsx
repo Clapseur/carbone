@@ -21,7 +21,7 @@ const BlackHoleBackground = () => {
 
     // Black hole animation
     const particles = [];
-    const numParticles = 50;
+    const numParticles = 10;
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
 
@@ -51,8 +51,6 @@ const BlackHoleBackground = () => {
         200
       );
       gradient.addColorStop(0, "rgba(0, 0, 0, 1)");
-      gradient.addColorStop(0.3, "rgba(9, 9, 11, 0.8)");
-      gradient.addColorStop(1, "rgba(9, 9, 11, 0)");
 
       ctx.fillStyle = gradient;
       ctx.beginPath();
