@@ -1,7 +1,4 @@
 @import "tailwindcss";
-@import "tailwind/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
 
 /* HKGroteskWide Font Family */
 @font-face {
@@ -40,7 +37,7 @@
 
 .header {
   z-index: 100;
-  position: relative;
+  /* Remove position: relative; to allow fixed positioning */
 }
 
 /* Glassmorphic header */
@@ -73,11 +70,15 @@ body {
 /* Apply Thunder font to all p elements */
 p {
   font-family: "Thunder", "HKGrotesk", sans-serif !important;
+  font-weight: 400 !important; /* Reduced from bold to normal weight */
+  font-size: calc(1em + 3px) !important; /* Increased by 3 pixels */
 }
 
 /* Thunder font utility class */
 .font-thunder {
   font-family: "Thunder", "HKGrotesk", sans-serif;
+  font-weight: 400; /* Consistent weight */
+  font-size: calc(1em + 3px); /* Consistent size increase */
 }
 
 /* Animations personnalisées */
@@ -112,7 +113,7 @@ p {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--secondary-dark);
+  background: var(--primary-dark);
   border-radius: 4px;
 }
 

@@ -21,7 +21,7 @@ const BlackHoleBackground = () => {
 
     // Black hole animation
     const particles = [];
-    const numParticles = 10;
+    const numParticles = 25;
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
 
@@ -38,9 +38,13 @@ const BlackHoleBackground = () => {
     }
 
     const animate = () => {
-      ctx.fillStyle = "rgba(9, 9, 11, 0.1)";
+      // Clear the canvas completely to remove trails
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      // Fill with solid background color
+      ctx.fillStyle = "#09090B";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+      
       // Draw black hole center
       const gradient = ctx.createRadialGradient(
         centerX,
@@ -48,15 +52,14 @@ const BlackHoleBackground = () => {
         0,
         centerX,
         centerY,
-        200
+        100
       );
-      gradient.addColorStop(0, "rgba(0, 0, 0, 1)");
-
+      gradient.addColorStop(0, "#09090B", "#FFFFFFF");
       ctx.fillStyle = gradient;
       ctx.beginPath();
-      ctx.arc(centerX, centerY, 200, 0, Math.PI * 2);
+      ctx.arc(centerX, centerY, 100, 0, Math.PI * 2);
       ctx.fill();
-
+      
       // Update and draw particles
       particles.forEach((particle) => {
         // Gravitational pull towards center
@@ -117,7 +120,7 @@ const BlackHoleBackground = () => {
 
 const HomePage = () => {
   const heroRef = useRef(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     // Hero animation
@@ -188,16 +191,6 @@ const HomePage = () => {
       {/* Black Hole Background */}
       <BlackHoleBackground />
 
-      {/* Cursor follower with specified classes */}
-      <div
-        className="fixed w-6 h-6 rounded-full pointer-events-none z-50 mix-blend-difference"
-        style={{
-          left: mousePosition.x - 12,
-          top: mousePosition.y - 12,
-          background: "#FFFFFF",
-          transition: "all 0.1s ease-out",
-        }}
-      />
 
       {/* Hero Section - Mobile First */}
       <section
@@ -261,45 +254,17 @@ const HomePage = () => {
                   créant des structures complexes et durables.
                 </p>
                 <p>
-                  De la même manière, notre plateforme{" "}
-                  <span style={{ color: "#FFFFFF", fontWeight: "600" }}>
-                    Carbone
-                  </span>
+                  De la même manière, notre plateforme
+
                   permet aux alumni de créer des connexions multiples et
                   significatives, formant un réseau professionnel solide et
                   évolutif.
                 </p>
                 <p>
                   Chaque interaction, chaque rencontre lors d'événements alumni,
-                  devient une{" "}
-                  <span style={{ color: "#FFFFFF", fontWeight: "600" }}>
-                    liaison
-                  </span>{" "}
+                  devient une liaison durable et significative
                   qui enrichit votre réseau et ouvre de nouvelles opportunités.
                 </p>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div
-                className="w-full h-64 sm:h-80 md:h-96 rounded-3xl backdrop-blur-sm border flex items-center justify-center"
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.05)",
-                  borderColor: "rgba(255, 255, 255, 0.1)",
-                }}
-              >
-                <div className="text-center">
-                  <div className="text-6xl sm:text-8xl mb-4">⚛️</div>
-                  <p
-                    className="font-semibold text-lg sm:text-xl"
-                    style={{ color: "#FFFFFF" }}
-                  >
-                    Structure Moléculaire
-                  </p>
-                  <p style={{ color: "#FFFFFF", opacity: 0.6 }}>
-                    4 liaisons • Infinie possibilités
-                  </p>
-                </div>
               </div>
             </div>
           </div>
@@ -393,124 +358,7 @@ const HomePage = () => {
       </section>
 
       {/* Network Effect Section - Mobile First */}
-      <section className="network-section relative py-16 sm:py-24 md:py-32 px-4 z-10">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-8 sm:mb-12 md:mb-16">
-            <h2
-              className="text-2xl sm:text-4xl md:text-6xl font-black font-hk-grotesk mb-6 sm:mb-8"
-              style={{ color: "#FFFFFF" }}
-            >
-              L'Effet Réseau
-            </h2>
-            <p
-              className="text-sm sm:text-xl max-w-3xl mx-auto"
-              style={{ color: "#FFFFFF", opacity: 0.8 }}
-            >
-              Comme les molécules organiques complexes, votre réseau
-              professionnel se renforce à chaque nouvelle connexion.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
-            <div className="space-y-6 sm:space-y-8">
-              <div className="flex items-start space-x-4">
-                <div
-                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold"
-                  style={{ backgroundColor: "#FFFFFF", color: "#09090B" }}
-                >
-                  1
-                </div>
-                <div>
-                  <h3
-                    className="text-lg sm:text-xl font-bold mb-2"
-                    style={{ color: "#FFFFFF" }}
-                  >
-                    Événements Alumni
-                  </h3>
-                  <p
-                    className="text-sm sm:text-base"
-                    style={{ color: "#FFFFFF", opacity: 0.8 }}
-                  >
-                    Participez à des soirées networking exclusives et créez vos
-                    premières liaisons.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div
-                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold"
-                  style={{ backgroundColor: "#FFFFFF", color: "#09090B" }}
-                >
-                  2
-                </div>
-                <div>
-                  <h3
-                    className="text-lg sm:text-xl font-bold mb-2"
-                    style={{ color: "#FFFFFF" }}
-                  >
-                    Connexions Multiples
-                  </h3>
-                  <p
-                    className="text-sm sm:text-base"
-                    style={{ color: "#FFFFFF", opacity: 0.8 }}
-                  >
-                    Développez des relations avec des professionnels de
-                    différents secteurs.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4">
-                <div
-                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold"
-                  style={{ backgroundColor: "#FFFFFF", color: "#09090B" }}
-                >
-                  3
-                </div>
-                <div>
-                  <h3
-                    className="text-lg sm:text-xl font-bold mb-2"
-                    style={{ color: "#FFFFFF" }}
-                  >
-                    Écosystème Durable
-                  </h3>
-                  <p
-                    className="text-sm sm:text-base"
-                    style={{ color: "#FFFFFF", opacity: 0.8 }}
-                  >
-                    Votre réseau devient une structure solide d'opportunités
-                    mutuelles.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div
-                className="w-full h-64 sm:h-80 md:h-96 rounded-3xl backdrop-blur-sm border flex items-center justify-center"
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.05)",
-                  borderColor: "rgba(255, 255, 255, 0.1)",
-                }}
-              >
-                <div className="text-center">
-                  <div className="text-6xl sm:text-8xl mb-4">🧬</div>
-                  <p
-                    className="font-semibold text-lg sm:text-xl"
-                    style={{ color: "#FFFFFF" }}
-                  >
-                    ADN Professionnel
-                  </p>
-                  <p style={{ color: "#FFFFFF", opacity: 0.6 }}>
-                    Votre réseau unique et évolutif
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+     
 
       {/* CTA Section - Mobile First */}
       <section className="relative py-16 sm:py-24 md:py-32 px-4 text-center z-10">
@@ -519,14 +367,13 @@ const HomePage = () => {
             className="text-2xl sm:text-4xl md:text-6xl font-black font-hk-grotesk mb-6 sm:mb-8"
             style={{ color: "#FFFFFF" }}
           >
-            Rejoignez l'Écosystème Carbone
+            Deja dans une de nos soiree ?
           </h2>
           <p
             className="text-sm sm:text-xl mb-8 sm:mb-12 max-w-2xl mx-auto"
             style={{ color: "#FFFFFF", opacity: 0.8 }}
           >
-            Découvrez comment vos connexions professionnelles peuvent créer des
-            opportunités infinies, comme les liaisons du carbone dans la nature.
+            connectez vous avec avec notre platforme pour cette soirée et faites de nouvelles liaisons
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
@@ -534,13 +381,7 @@ const HomePage = () => {
               className="px-6 sm:px-8 py-3 sm:py-4 font-bold rounded-full hover:scale-105 transition-all duration-300 shadow-lg"
               style={{ backgroundColor: "#FFFFFF", color: "#09090B" }}
             >
-              Explorer le Réseau
-            </button>
-            <button
-              className="px-6 sm:px-8 py-3 sm:py-4 border-2 font-bold rounded-full hover:scale-105 transition-all duration-300"
-              style={{ borderColor: "#FFFFFF", color: "#FFFFFF" }}
-            >
-              En Savoir Plus
+              <a href="https://bond.carbonedev.com">Explorer le Reseau</a>
             </button>
           </div>
         </div>
@@ -567,10 +408,6 @@ const HomePage = () => {
             className="flex flex-wrap justify-center gap-4 sm:gap-8 text-sm sm:text-base"
             style={{ color: "#FFFFFF" }}
           >
-            <span>🧪 Chimie</span>
-            <span>🤝 Réseau</span>
-            <span>🚀 Innovation</span>
-            <span>💎 Excellence</span>
           </div>
         </div>
       </footer>
