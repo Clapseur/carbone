@@ -59,11 +59,11 @@ function Header() {
             <a href="#" className="block text-xl font-semibold text-white hover:text-green-300 transition-colors">
               Accueil
             </a>
-            <a href="#" className="block text-xl font-semibold text-white hover:text-green-300 transition-colors">
+            <a href="#histoire" className="block text-xl font-semibold text-white hover:text-green-300 transition-colors">
               À propos
             </a>
-            <a href="#" className="block text-xl font-semibold text-white hover:text-green-300 transition-colors">
-              Contact
+            <a href="#tester" className="block text-xl font-semibold text-white hover:text-green-300 transition-colors">
+              Explorer
             </a>
           </nav>
           

@@ -235,7 +235,7 @@ const HomePage = () => {
       <section className="story-section relative py-16 sm:py-24 md:py-32 px-4 z-10">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
-            <div>
+            <div id="histoire">
               <h2
                 className="text-2xl sm:text-4xl md:text-6xl font-black font-hk-grotesk mb-6 sm:mb-8"
                 style={{ color: "#FFFFFF" }}
@@ -350,7 +350,7 @@ const HomePage = () => {
                   className="text-sm sm:text-base"
                   style={{ color: "#FFFFFF", opacity: 0.8 }}
                 >
-                  Fructifier votre réseau et générez des opportunités inouis
+                  Fructifier votre <HighlightText text="réseau" className="bg-linear-to-r from-base-blackk to-base-greyy " inView /> et générez des opportunités <HighlightText text="inouis" className="bg-linear-to-r from-base-blackk to-base-greyy " inView />
                 </p>
               </div>
             </div>
@@ -363,14 +363,14 @@ const HomePage = () => {
 
       {/* CTA Section - Mobile First */}
       <section className="relative py-16 sm:py-24 md:py-32 px-4 text-center z-10">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto text-black">
           <h2
             className="text-2xl sm:text-4xl md:text-6xl font-black font-hk-grotesk mb-6 sm:mb-8"
             style={{ color: "#FFFFFF" }}
           >
             <HighlightText 
               text="Deja dans notre soiree ?"
-              className="bg-linear-to-r from-blue-400 to-purple-400"
+              className="bg-linear-to-r from-teal to-light"
               inView={true}
             />
           </h2>
@@ -386,7 +386,7 @@ const HomePage = () => {
               className="px-6 sm:px-8 py-3 sm:py-4 font-bold rounded-full hover:scale-105 transition-all duration-300 shadow-lg"
               style={{ backgroundColor: "#FFFFFF", color: "#09090B" }}
             >
-              <a href="https://bond.carbonedev.com">Explorer le Reseau</a>
+              <a id="tester" href="https://bond.carbonedev.com">Explorer le Reseau</a>
             </button>
           </div>
         </div>
