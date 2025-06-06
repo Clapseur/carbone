@@ -1,4 +1,44 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  --font-hk-grotesk: HKGrotesk, sans-serif;
+  --font-thunder: Thunder, serif;
+
+  --color-base-blackk: #222831;
+  --color-base-greyy: #393e46;
+
+  --color-carbone-50: #f8fafc;
+  --color-carbone-100: #f1f5f9;
+  --color-carbone-200: #e2e8f0;
+  --color-carbone-300: #cbd5e1;
+  --color-carbone-400: #94a3b8;
+  --color-carbone-500: #64748b;
+  --color-carbone-600: #475569;
+  --color-carbone-700: #334155;
+  --color-carbone-800: #1e293b;
+  --color-carbone-900: #0f172a;
+
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 /* HKGroteskWide Font Family */
 @font-face {

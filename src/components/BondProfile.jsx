@@ -55,7 +55,7 @@ const BondProfile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white flex items-center justify-center px-4">
+      <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-800 text-white flex items-center justify-center px-4">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
           <p className="text-lg">Chargement du profil...</p>
@@ -66,13 +66,13 @@ const BondProfile = () => {
 
   if (error || !profile) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white flex items-center justify-center px-4">
+      <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-800 text-white flex items-center justify-center px-4">
         <div className="text-center">
           <h1 className="text-2xl sm:text-3xl font-bold mb-4">Profil non trouvé</h1>
           <p className="text-gray-300 mb-6">Ce lien Carbone n'existe pas ou a expiré.</p>
           <a 
             href="https://bond.carbonedev.com" 
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300"
+            className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300"
           >
             Retour à l'accueil
           </a>
@@ -82,11 +82,11 @@ const BondProfile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white pt-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-800 text-white pt-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto sm:max-w-lg lg:max-w-2xl">
         <div className="bg-white/5 backdrop-blur-lg rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-white/10">
           <div className="text-center mb-8">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-linear-to-r from-blue-500 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center">
               <span className="text-2xl sm:text-3xl font-bold">
                 {profile.prenom?.[0]}{profile.nom?.[0]}
               </span>

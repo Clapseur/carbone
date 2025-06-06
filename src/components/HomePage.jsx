@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import VideoText from "./VideoText";
+import { HighlightText } from "./HighlightText";
 
 // Black Hole Background Component
 const BlackHoleBackground = () => {
@@ -213,7 +214,7 @@ const HomePage = () => {
               className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold"
               style={{ color: "#FFFFFF" }}
             >
-              L'Element qui <h2 style={{ color: "#FFFFFF" }}>Unit Tout</h2> 
+              L'Element qui <span style={{ color: "#FFFFFF" }}>Unit Tout</span> 
             </h2>
           </div>
 
@@ -284,7 +285,7 @@ const HomePage = () => {
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12 md:mb-16">
             <div className="group">
               <div
-                className="p-6 sm:p-8 rounded-2xl border backdrop-blur-sm hover:scale-105 transition-all duration-300"
+                className="p-6 sm:p-8 rounded-2xl border backdrop-blur-xs hover:scale-105 transition-all duration-300"
                 style={{
                   backgroundColor: "rgba(255, 255, 255, 0.05)",
                   borderColor: "rgba(255, 255, 255, 0.1)",
@@ -301,14 +302,14 @@ const HomePage = () => {
                   className="text-sm sm:text-base"
                   style={{ color: "#FFFFFF", opacity: 0.8 }}
                 >
-                  Connexions directes entre client/partenanire et recruteur/chasseur de tête lors de vos événements networking
+                  Connexions directes entre <HighlightText text="client/partenanire" className="bg-linear-to-r from-base-blackk to-base-greyy " inView /> et <HighlightText text="recruteur/chasseur" className="bg-linear-to-r from-base-blackk to-base-greyy " inView /> de tête lors de vos événements networking
                 </p>
               </div>
             </div>
 
             <div className="group">
               <div
-                className="p-6 sm:p-8 rounded-2xl border backdrop-blur-sm hover:scale-105 transition-all duration-300"
+                className="p-6 sm:p-8 rounded-2xl border backdrop-blur-xs hover:scale-105 transition-all duration-300"
                 style={{
                   backgroundColor: "rgba(255, 255, 255, 0.05)",
                   borderColor: "rgba(255, 255, 255, 0.1)",
@@ -325,14 +326,14 @@ const HomePage = () => {
                   className="text-sm sm:text-base"
                   style={{ color: "#FFFFFF", opacity: 0.8 }}
                 >
-                  Partenariats professionnels et collaborations durables
+                  Partenariats professionnels et collaborations<HighlightText text=" durables" className="bg-linear-to-r from-base-blackk to-base-greyy " inView />
                 </p>
               </div>
             </div>
 
             <div className="group sm:col-span-2 md:col-span-1">
               <div
-                className="p-6 sm:p-8 rounded-2xl border backdrop-blur-sm hover:scale-105 transition-all duration-300"
+                className="p-6 sm:p-8 rounded-2xl border backdrop-blur-xs hover:scale-105 transition-all duration-300"
                 style={{
                   backgroundColor: "rgba(255, 255, 255, 0.05)",
                   borderColor: "rgba(255, 255, 255, 0.1)",
@@ -367,13 +368,17 @@ const HomePage = () => {
             className="text-2xl sm:text-4xl md:text-6xl font-black font-hk-grotesk mb-6 sm:mb-8"
             style={{ color: "#FFFFFF" }}
           >
-            Deja dans une de nos soiree ?
+            <HighlightText 
+              text="Deja dans notre soiree ?"
+              className="bg-linear-to-r from-blue-400 to-purple-400"
+              inView={true}
+            />
           </h2>
           <p
             className="text-sm sm:text-xl mb-8 sm:mb-12 max-w-2xl mx-auto"
             style={{ color: "#FFFFFF", opacity: 0.8 }}
           >
-            connectez vous avec avec notre platforme pour cette soirée et faites de nouvelles liaisons
+            connectez vous avec avec notre platforme pour cette soirée et faites de <HighlightText text="nouvelles liaisons" className="bg-linear-to-r from-base-blackk to-base-greyy " inView />
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
