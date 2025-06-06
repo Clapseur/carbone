@@ -206,7 +206,7 @@ const HomePage = () => {
         ref={heroRef}
         className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden z-10"
       >
-        <div className="relative z-10 text-center max-w-6xl mx-auto">
+        <div className="relative z-10 text-center w-full mx-auto">
           <div className="hero-title mb-6 sm:mb-8">
             <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black font-hk-grotesk mb-4">
               <VideoText
