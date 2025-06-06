@@ -1,4 +1,47 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  --font-hk-grotesk: HKGrotesk, sans-serif;
+  --font-thunder: Thunder, serif;
+
+  --color-base-blackk: #222831;
+  --color-base-greyy: #393e46;
+
+  --color-teal: #29a19c;
+  --color-light: #a3f7bf;
+
+  --color-carbone-50: #f8fafc;
+  --color-carbone-100: #f1f5f9;
+  --color-carbone-200: #e2e8f0;
+  --color-carbone-300: #cbd5e1;
+  --color-carbone-400: #94a3b8;
+  --color-carbone-500: #64748b;
+  --color-carbone-600: #475569;
+  --color-carbone-700: #334155;
+  --color-carbone-800: #1e293b;
+  --color-carbone-900: #0f172a;
+
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 /* HKGroteskWide Font Family */
 @font-face {
@@ -12,7 +55,6 @@
   font-weight: 900;
   font-style: normal;
   font-display: swap;
-  /* Safari-specific font loading optimization */
   unicode-range: U+0020-007F;
 }
 
@@ -38,7 +80,23 @@
 
 .header {
   z-index: 100;
-  position: relative;
+  /* Remove position: relative; to allow fixed positioning */
+}
+
+/* Glassmorphic header */
+.glass-header {
+  background: rgba(34, 40, 49, 0.1);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(163, 247, 191, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Glassmorphic menu */
+.glass-menu {
+  background: rgba(34, 40, 49, 0.15);
+  backdrop-filter: blur(25px);
+  border-left: 1px solid rgba(163, 247, 191, 0.2);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.2);
 }
 
 body {
@@ -50,6 +108,20 @@ body {
   font-family: "HKGrotesk", sans-serif;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
+}
+
+/* Apply Thunder font to all p elements */
+p {
+  font-family: "Thunder", "HKGrotesk", sans-serif !important;
+  font-weight: 400 !important; /* Reduced from bold to normal weight */
+  font-size: calc(1em + 3px) !important; /* Increased by 3 pixels */
+}
+
+/* Thunder font utility class */
+.font-thunder {
+  font-family: "Thunder", "HKGrotesk", sans-serif;
+  font-weight: 400; /* Consistent weight */
+  font-size: calc(1em + 3px); /* Consistent size increase */
 }
 
 /* Animations personnalisées */
@@ -84,7 +156,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--secondary-dark);
+  background: var(--primary-dark);
   border-radius: 4px;
 }
 
@@ -96,6 +168,10 @@ body {
   .glass {
     background: rgba(163, 247, 191, 0.08);
     backdrop-filter: blur(8px);
+  }
+  
+  .glass-header {
+    backdrop-filter: blur(15px);
   }
 }
 
